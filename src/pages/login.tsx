@@ -7,9 +7,7 @@ import { useRegisterMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
 
-interface registerProps {}
-
-const Register: React.FC<registerProps> = ({}) => {
+const Login: React.FC<{}> = ({ }) => {
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
