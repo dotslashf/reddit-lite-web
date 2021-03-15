@@ -20,6 +20,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     // user is not logged in
     body = (
       <ButtonGroup>
+        <NextLink href="/create-post">
+          <IconButton aria-label="Add Post" colorScheme="green" icon={<AddIcon />} />
+        </NextLink>
         <NextLink href="/login">
           <Button colorScheme="blue">Login</Button>
         </NextLink>
@@ -37,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
         </Button>
         <NextLink href="/create-post">
           <IconButton aria-label="Add Post" colorScheme="green" icon={<AddIcon />} />
-          </NextLink>
+        </NextLink>
         <Button
           colorScheme="red"
           onClick={() => {
