@@ -1,8 +1,9 @@
-import { Box, Button, ButtonGroup, Flex, Link } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Flex, IconButton, Link } from '@chakra-ui/react';
 import React from 'react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
+import { AddIcon } from '@chakra-ui/icons';
 
 interface NavbarProps {}
 
@@ -34,6 +35,9 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
         <Button colorScheme="blue">
           {data.me.username.charAt(0).toUpperCase() + data.me.username.slice(1)}
         </Button>
+        <NextLink href="/create-post">
+          <IconButton aria-label="Add Post" colorScheme="green" icon={<AddIcon />} />
+          </NextLink>
         <Button
           colorScheme="red"
           onClick={() => {
@@ -47,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     );
   }
   return (
-    <Flex bg="gray.200" p={4}>
+    <Flex position="sticky" top={0} zIndex="100" bg="gray.200" p={4}>
       <Box ml={'auto'}>{body}</Box>
     </Flex>
   );
