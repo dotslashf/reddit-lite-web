@@ -1,6 +1,6 @@
-import { Center, Flex, Heading, Stack } from '@chakra-ui/layout';
+import { Box, Center, Flex, Heading, Stack } from '@chakra-ui/layout';
 import { withUrqlClient } from 'next-urql';
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout } from '../components/Layout';
 import { Post } from '../components/Post';
 import { usePostsQuery } from '../generated/graphql';
@@ -10,10 +10,12 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Alert, AlertIcon, Button, IconButton } from '@chakra-ui/react';
 
 const Index = () => {
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as null | string,
+  });
   const [{ data, fetching }] = usePostsQuery({
-    variables: {
-      limit: 10,
-    },
+    variables,
   });
 
   if (!fetching && !data) {
@@ -26,41 +28,58 @@ const Index = () => {
   }
 
   return (
-    <Layout variant="regular">
-      <Flex align="center" mb={4}>
-        <Heading>RedditLite</Heading>
-        <NextLink href="/create-post">
-          <IconButton
-            ml="auto"
-            size="sm"
-            aria-label="Add Post"
-            colorScheme="orange"
-            icon={<AddIcon />}
-          />
-        </NextLink>
-      </Flex>
-      {!data && fetching ? (
-        <div>Loading...</div>
-      ) : (
-        <Stack>
-          {data.posts.map(p => (
-            <Post
-              title={p.title}
-              text={p.textSnippet}
-              key={p.id}
-              points={p.points}
+    <Box background="orange.100">
+      <Layout variant="regular">
+        <Flex align="center" mb={4}>
+          <Heading textColor="orange.400">RedditLite</Heading>
+          <NextLink href="/create-post">
+            <IconButton
+              ml="auto"
+              size="sm"
+              aria-label="Add Post"
+              colorScheme="orange"
+              icon={<AddIcon />}
             />
-          ))}
-        </Stack>
-      )}
-      {data ? (
-        <Flex>
-          <Button mx="auto" my={4} isLoading={fetching}>
-            Load More Posts
-          </Button>
+          </NextLink>
         </Flex>
-      ) : null}
-    </Layout>
+        {!data && fetching ? (
+          <div>Loading...</div>
+        ) : (
+          <Stack>
+            {data.posts.map(p => {
+              return (
+                <Post
+                  title={p.title}
+                  text={p.textSnippet}
+                  key={p.id}
+                  points={p.points}
+                  date={p.createdAt}
+                />
+              );
+            })}
+          </Stack>
+        )}
+        <Flex pt={4} pb={8}>
+          <Center width="full">
+            {data?.posts.length > 0 ? (
+              <Button
+                onClick={() =>
+                  setVariables({
+                    limit: variables.limit,
+                    cursor: data.posts[data.posts.length - 1].createdAt,
+                  })
+                }
+                isLoading={fetching}
+              >
+                Load More Posts
+              </Button>
+            ) : (
+              'Youve reached the end of the post'
+            )}
+          </Center>
+        </Flex>
+      </Layout>
+    </Box>
   );
 };
 

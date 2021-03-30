@@ -1,3 +1,4 @@
+import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, ButtonGroup } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { withUrqlClient } from 'next-urql';
@@ -9,46 +10,60 @@ import { useCreatePostMutation } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { useIsAuth } from '../utils/useIsAuth';
 
-const CreatePost: React.FC<{}> = ({ }) => {
-  useIsAuth()
+const CreatePost: React.FC<{}> = ({}) => {
+  useIsAuth();
   const router = useRouter();
-  const [, createPost] = useCreatePostMutation()
+  const [, createPost] = useCreatePostMutation();
   return (
-    <Layout variant="small">
+    <Layout>
       <Formik
         initialValues={{ title: '', text: '' }}
-        onSubmit={async (values) => {
-          const { error } = await createPost({ input: values })
+        onSubmit={async values => {
+          const { error } = await createPost({ input: values });
           if (!error) {
-            router.push('/')
+            router.push('/');
           }
         }}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <InputField
-              name="title"
-              placeholder="Your post title"
-              label="Title"
-            />
-            <Box mt={4}>
+          <Box
+            mb={2}
+            p={5}
+            shadow="md"
+            borderWidth="1px"
+            bg="white"
+            rounded="sm"
+          >
+            <Form>
               <InputField
-                name="text"
-                placeholder="text..."
-                label="Post Text"
-                textArea
+                name="title"
+                placeholder="Your post title"
+                label="Title"
               />
-            </Box>
-            <ButtonGroup mt={4}>
-              <Button isLoading={isSubmitting} type="submit" colorScheme="green">
-                Create Post
-              </Button>
-            </ButtonGroup>
-          </Form>
+              <Box mt={4}>
+                <InputField
+                  name="text"
+                  placeholder="text..."
+                  label="Post Text"
+                  textArea
+                />
+              </Box>
+              <ButtonGroup mt={4}>
+                <Button
+                  isLoading={isSubmitting}
+                  type="submit"
+                  colorScheme="green"
+                  leftIcon={<AddIcon />}
+                >
+                  Post
+                </Button>
+              </ButtonGroup>
+            </Form>
+          </Box>
         )}
       </Formik>
-      </Layout>
-    );
-}
+    </Layout>
+  );
+};
 
 export default withUrqlClient(createUrqlClient)(CreatePost);

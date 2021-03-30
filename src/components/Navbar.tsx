@@ -10,7 +10,7 @@ import React from 'react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, ArrowForwardIcon, PlusSquareIcon } from '@chakra-ui/icons';
 
 interface NavbarProps {}
 
@@ -28,10 +28,22 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     body = (
       <ButtonGroup>
         <NextLink href="/login">
-          <Button colorScheme="blue">Login</Button>
+          <Button
+            leftIcon={<ArrowForwardIcon />}
+            variant="ghost"
+            colorScheme="orange"
+          >
+            Login
+          </Button>
         </NextLink>
         <NextLink href="/register">
-          <Button colorScheme="green">Register</Button>
+          <Button
+            variant="ghost"
+            colorScheme="orange"
+            leftIcon={<PlusSquareIcon />}
+          >
+            Register
+          </Button>
         </NextLink>
       </ButtonGroup>
     );
@@ -62,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
     );
   }
   return (
-    <Flex position="sticky" top={0} zIndex="100" bg="gray.200" p={4}>
+    <Flex position="sticky" top={0} zIndex="100" bg="orange.300" p={4}>
       <Box ml={'auto'}>{body}</Box>
     </Flex>
   );

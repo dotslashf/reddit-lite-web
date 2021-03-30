@@ -1,16 +1,17 @@
-import React from 'react'
-import { Navbar } from './Navbar'
-import { Wrapper, WrapperVariant } from './Wrapper'
+import { Container } from '@chakra-ui/react';
+import React from 'react';
+import { Navbar } from './Navbar';
+import { Wrapper, WrapperVariant } from './Wrapper';
 
 interface LayoutProps {
-variant? : WrapperVariant
+  variant?: WrapperVariant;
 }
 
-export const Layout: React.FC<LayoutProps> =({children, variant}) => {
+export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
   return (
     <>
-    <Navbar />
+      <Navbar />
       <Wrapper variant={variant}>{children}</Wrapper>
-      </>
+    </>
   );
-}
+};
