@@ -46,7 +46,7 @@ const Index = () => {
           <div>Loading...</div>
         ) : (
           <Stack>
-            {data.posts.map(p => {
+            {data.posts.posts.map(p => {
               return (
                 <Post
                   title={p.title}
@@ -61,12 +61,13 @@ const Index = () => {
         )}
         <Flex pt={4} pb={8}>
           <Center width="full">
-            {data?.posts.length > 0 ? (
+            {data?.posts.hasMore ? (
               <Button
                 onClick={() =>
                   setVariables({
                     limit: variables.limit,
-                    cursor: data.posts[data.posts.length - 1].createdAt,
+                    cursor:
+                      data.posts.posts[data.posts.posts.length - 1].createdAt,
                   })
                 }
                 isLoading={fetching}
